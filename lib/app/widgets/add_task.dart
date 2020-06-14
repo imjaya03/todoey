@@ -8,7 +8,8 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-  String _title;
+  String _title = '';
+
   final _formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,6 @@ class _AddTaskState extends State<AddTask> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Text(
-                'Add Task'.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor),
-              ),
               TextFormField(
                 decoration: InputDecoration(
                   // border: OutlineInputBorder(),
@@ -49,7 +42,18 @@ class _AddTaskState extends State<AddTask> {
                   taskBloc.insert(title: _title.trim());
                   Navigator.of(context).pop();
                 },
-                child: Text('ADD'),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  width: double.infinity,
+                  child: Text(
+                    'ADD TASK'.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
