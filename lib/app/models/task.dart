@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Task with ChangeNotifier {
-  final String id;
-  final String title;
+  final String? id;
+  final String? title;
   bool isChacked;
 
-  Task({@required this.id, @required this.title, this.isChacked = false});
+  Task({required this.id, required this.title, this.isChacked = false});
 
   static Task fromMap(Map<String, dynamic> map) {
     return Task(

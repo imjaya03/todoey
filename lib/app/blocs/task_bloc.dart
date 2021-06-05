@@ -23,7 +23,7 @@ class TaskBloc with ChangeNotifier {
 
   Future fetchAndSetItems() async {
     try {
-      final fetchedItems = await _taskDbService.items();
+      final fetchedItems = await _taskDbService!.items();
       _items = [...fetchedItems];
       notifyListeners();
     } catch (e) {
@@ -31,10 +31,10 @@ class TaskBloc with ChangeNotifier {
     }
   }
 
-  insert({@required String title}) async {
+  insert({required String title}) async {
     try {
       final newTask = Task(id: _uuid.v1(), title: title);
-      await _taskDbService.insert(task: newTask);
+      await _taskDbService!.insert(task: newTask);
       _items.add(newTask);
       notifyListeners();
     } catch (e) {
@@ -42,9 +42,9 @@ class TaskBloc with ChangeNotifier {
     }
   }
 
-  update({@required String id, @required Task task}) async {
+  update({required String? id, required Task task}) async {
     try {
-      final updatedTask = await _taskDbService.update(id: id, task: task);
+      final updatedTask = await _taskDbService!.update(id: id, task: task);
       final findedIndex = _items.indexWhere((task) => task.id == id);
       _items[findedIndex] = updatedTask;
       notifyListeners();
@@ -53,9 +53,9 @@ class TaskBloc with ChangeNotifier {
     }
   }
 
-  delete({@required String id}) async {
+  delete({required String? id}) async {
     try {
-      await _taskDbService.delete(id: id);
+      await _taskDbService!.delete(id: id);
       _items.removeWhere((task) => task.id == id);
       notifyListeners();
     } catch (e) {

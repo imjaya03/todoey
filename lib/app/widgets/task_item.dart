@@ -12,7 +12,7 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final taskBloc = Provider.of<TaskBloc>(context);
     return Dismissible(
-      key: Key(task.id),
+      key: Key(task.id!),
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,
@@ -31,27 +31,29 @@ class TaskItem extends StatelessWidget {
       confirmDismiss: (direction) {
         return showDialog(
           context: context,
-          child: AlertDialog(
-            title: Text('Alert'),
-            content: Text('Do you want to remove the task ?'),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: Text('YES')),
-              FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Text('NO')),
-            ],
-          ),
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Alert'),
+              content: Text('Do you want to remove the task ?'),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text('YES')),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text('NO')),
+              ],
+            );
+          },
         );
       },
       child: CheckboxListTile(
         title: Text(
-          task.title,
+          task.title!,
           style: TextStyle(
             decoration: task.isChacked ? TextDecoration.lineThrough : null,
           ),

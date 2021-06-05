@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:todoey/app/models/task.dart';
 
 class TaskDbService {
   // Singleton Class
-  static TaskDbService get instance =>
+  static TaskDbService? get instance =>
       _instance == null ? _instance = TaskDbService._internal() : _instance;
-  static TaskDbService _instance;
+  static TaskDbService? _instance;
   TaskDbService._internal();
 
   final String _tableName = 'task';
@@ -16,10 +15,10 @@ class TaskDbService {
   final String _colIsChacked = 'isChacked';
 
   Future<Database> get db async {
-    return _db == null ? _db = await _initDatabase() : _db;
+    return (_db == null ? _db = await _initDatabase() : _db) as Database;
   }
 
-  Database _db;
+  Database? _db;
 
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'task.db');
@@ -36,9 +35,10 @@ class TaskDbService {
     });
   }
 
-  Future<Task> insert({@required Task task}) async {
+  Future<Task> insert({required Task task}) async {
     try {
       final dbClient = await db;
+
       await dbClient.insert(
         _tableName,
         Task.toMap(task),
@@ -50,7 +50,7 @@ class TaskDbService {
     }
   }
 
-  Future<Task> itemById({@required String id}) async {
+  Future<Task> itemById({required String id}) async {
     try {
       return (await items()).where((task) => task.id == id).first;
     } catch (e) {
@@ -68,7 +68,7 @@ class TaskDbService {
     }
   }
 
-  Future<Task> update({@required id, @required Task task}) async {
+  Future<Task> update({required id, required Task task}) async {
     try {
       final dbClient = await db;
       await dbClient.update(
@@ -84,7 +84,7 @@ class TaskDbService {
     }
   }
 
-  Future<void> delete({@required String id}) async {
+  Future<void> delete({required String? id}) async {
     try {
       final dbClient = await db;
       await dbClient.delete(_tableName, where: '$_colId = ?', whereArgs: [id]);
